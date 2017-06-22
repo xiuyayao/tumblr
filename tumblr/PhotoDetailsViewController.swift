@@ -11,12 +11,10 @@ import UIKit
 class PhotoDetailsViewController: UIViewController {
     
     var photoUrl : URL!
-    
     @IBOutlet weak var photoImageView: UIImageView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
         photoImageView.af_setImage(withURL: photoUrl!)
     }
