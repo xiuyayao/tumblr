@@ -12,6 +12,7 @@ import AlamofireImage
 class PhotosViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     var posts: [[String: Any]] = []
+    
     @IBOutlet weak var photosTableView: UITableView!
     
     
@@ -71,12 +72,33 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
         
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        let vc = segue.destination as! PhotoDetailsViewController
+        let cell = sender as! UITableViewCell
+        let indexPath = photosTableView.indexPath(for: cell)!
+        
+        let post = posts[indexPath.row]
+        
+        let photos = post["photos"] as! [[String: Any]]
+            
+        let photo = photos[0]
+        let originalSize = photo["original_size"] as! [String: Any]
+        let urlString = originalSize["url"] as! String
+        let url = URL(string: urlString)
+            
+        vc.photoUrl = url
+    }
 
     /*
     // MARK: - Navigation
